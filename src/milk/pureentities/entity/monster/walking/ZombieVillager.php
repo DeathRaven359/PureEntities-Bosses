@@ -15,7 +15,7 @@ class ZombieVillager extends WalkingMonster{
     public $height = 1.8;
 
     public function getSpeed() : float{
-        return 19.19;
+        return 9.9;
     }
 
     public function initEntity(){
