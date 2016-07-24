@@ -23,7 +23,7 @@ class Creeper extends WalkingMonster implements Explosive{
     private $bombTime = 0;
 
     public function getSpeed() : float{
-        return 20.20;
+        return 9.9;
     }
 
     public function initEntity(){
