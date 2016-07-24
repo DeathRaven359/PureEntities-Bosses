@@ -23,7 +23,7 @@ class PigZombie extends WalkingMonster{
     public $eyeHeight = 1.62;
 
     public function getSpeed() : float{
-        return 12.12;
+        return 9.9;
     }
 
     public function initEntity(){
