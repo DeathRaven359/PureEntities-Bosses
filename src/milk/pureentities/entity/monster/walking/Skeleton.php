@@ -24,6 +24,7 @@ use pocketmine\nbt\tag\FloatTag;
 use pocketmine\network\protocol\MobEquipmentPacket;
 use pocketmine\Player;
 use pocketmine\math\Vector3;
+use pocketmine\network\protocol\AddEntityPacket;
 
 class Skeleton extends WalkingMonster implements ProjectileSource{
     const NETWORK_ID = 34;
@@ -38,18 +39,19 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
     public function setName(){
         return "Skeleton";
     }
-    
+    //If Making This Fast Will Make The Server Laggy
+/*
     public function getSpeed() : float{
         return 7.7;
     }
+*/
     
     public function initEntity(){
         parent::initEntity();
-        $this->setMaxHealth(10);
         $this->setMaxHealth(250);
         $this->setHealth(250);
     }
-
+//Have You Tried Do Skeleton Like Zombie? Cause Zombie Also Can Attack Using Fireball And Its Perfect.
     public function attackEntity(Entity $player){
         if($this->attackDelay > 30 && mt_rand(1, 32) < 4 && $this->distanceSquared($player) <= 55){
             $this->attackDelay = 0;
@@ -74,15 +76,16 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
                 ]),
             ]);
 
-            /** @var Projectile $arrow */
+            /** @var Projectile $arrow **/
             $arrow = Entity::createEntity("FireBall", $this->chunk, $nbt, $this);
 
-            $ev = new EntityShootBowEvent(Entity::createEntity("FireBall", $this->chunk, $nbt, $this), $arrow, $f);//$this, Item::get(Item::FIRE_CHARGE, 0, 5), $arrow, $f); // I need a way 
+            $fireball = Item::get(Item::FIRE_CHARGE, 0, 1);
+            $ev = new EntityShootBowEvent($this, $fireball, $arrow, $f);
             $this->server->getPluginManager()->callEvent($ev);
             
             //$arrow->setExplode(true);
             
-            $arrow->setOnFire(100);
+            $arrow->setOnFire(true);
             
             //$this->addStrike($arrow);
 
@@ -96,18 +99,20 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
                 }else{
                     $projectile->spawnToAll();
                     
-                    $this->addStrike($projectile);
+                    //$this->addStrike($projectile);
             
-                    $projectile->setOnFire(100);
+                    $projectile->setOnFire(true);
             
                     //$projectile->setExplode(true);
                     
                     $this->level->addSound(new DoorCrashSound($this), $this->getViewers());
+   return [];
                 }
             }
         }
     }
-    
+    //Note:: Using adsStrike Will Make The Server Lagg Too
+/*
     public function addStrike(Position $pos){
         $skully = $this->getEntity();
         $level = $this->getLevel();
@@ -123,6 +128,7 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
         $light->z = $skully->z;
         Server::broadcastPacket($level->getPlayers(), $light);
     }
+*/
 
     public function spawnTo(Player $player){
         parent::spawnTo($player);
@@ -143,10 +149,10 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
 
         $time = $this->getLevel()->getTime() % Level::TIME_FULL;
         if(
-            !$this->isOnFire()
+            !$this->isOnFire(false)
             && ($time < Level::TIME_NIGHT || $time > Level::TIME_SUNRISE)
         ){
-            $this->setOnFire(0);
+            $this->setOnFire(false);
         }
 
         Timings::$timerEntityBaseTick->startTiming();
