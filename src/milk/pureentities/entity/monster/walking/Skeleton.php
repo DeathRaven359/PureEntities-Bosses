@@ -3,7 +3,6 @@
 namespace milk\pureentities\entity\monster\walking;
 
 use milk\pureentities\entity\monster\WalkingMonster;
-use milk\pureentities\entity\monster\FlyingMonster;
 use milk\pureentities\entity\projectile\FireBall;
 use pocketmine\entity\Entity;
 use pocketmine\entity\Projectile;
