@@ -87,7 +87,7 @@ $fireball = Item::get(Item::FIRE_CHARGE, 0, 5);
             
             //$arrow->setExplode(true);
             
-            $arrow->setOnFire(100);
+            $arrow->setOnFire(true);
             //$fireball->setOnFire(100);
             
             //$this->addStrike($arrow);
@@ -103,9 +103,9 @@ $fireball = Item::get(Item::FIRE_CHARGE, 0, 5);
                 }else{
                     $projectile->spawnToAll();
                     
-                    $this->addStrike($projectile);
+                    //$this->addStrike($projectile);
             
-                    $projectile->setOnFire(100);
+                    $projectile->setOnFire(true);
             
                     //$projectile->setExplode(true);
                     
