@@ -88,7 +88,7 @@ $fireball = Item::get(Item::FIRE_CHARGE, 0, 5);
             //$arrow->setExplode(true);
             
             $arrow->setOnFire(100);
-            $fireball->setOnFire(100);
+            //$fireball->setOnFire(100);
             
             //$this->addStrike($arrow);
 
