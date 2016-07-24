@@ -2,7 +2,6 @@
 
 namespace milk\pureentities\entity\monster\walking;
 
-use milk\pureentities\entity\monster\FlyingMonster;
 use milk\pureentities\entity\projectile\FireBall;
 use milk\pureentities\entity\monster\WalkingMonster;
 use pocketmine\entity\Ageable;
@@ -36,9 +35,9 @@ class Zombie extends WalkingMonster implements Ageable{
         
         //$this->fireProof = true;
         
-        $this->setMaxHealth(1000);
+        $this->setMaxHealth(100);
         
-        $this->setHealth(1000);
+        $this->setHealth(100);
         
         if($this->getDataProperty(self::DATA_AGEABLE_FLAGS) == null){
             $this->setDataProperty(self::DATA_AGEABLE_FLAGS, self::DATA_TYPE_BYTE, 0);
