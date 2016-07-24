@@ -80,8 +80,8 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
             /** @var Projectile $arrow **/
             $arrow = Entity::createEntity("FireBall", $this->chunk, $nbt, $this);
 
-            $fireball = Item::get(Item::FIRE_CHARGE, 0, 1);
-            $ev = new EntityShootBowEvent($this, $fireball, $arrow, $f);
+            //$fireball = Item::get(Item::FIRE_CHARGE, 0, 1);
+            $ev = new EntityShootBowEvent($this,/*$fireball,*/ $arrow, $f);
             $this->server->getPluginManager()->callEvent($ev);
             
             //$arrow->setExplode(true);
