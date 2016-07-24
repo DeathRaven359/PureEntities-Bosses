@@ -84,7 +84,7 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
             $ev = new EntityShootBowEvent($this, $fireball, $arrow, $f);
             $this->server->getPluginManager()->callEvent($ev);
             
-            $arrow->setExplode(true);
+            $fireball->setExplode(true);
             
             $arrow->setOnFire(true);
             
