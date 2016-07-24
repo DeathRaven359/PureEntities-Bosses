@@ -24,6 +24,7 @@ use pocketmine\nbt\tag\FloatTag;
 use pocketmine\network\protocol\MobEquipmentPacket;
 use pocketmine\Player;
 use pocketmine\math\Vector3;
+use pocketmine\network\protocol\AddEntityPacket;
 
 class Skeleton extends WalkingMonster implements ProjectileSource{
     const NETWORK_ID = 34;
