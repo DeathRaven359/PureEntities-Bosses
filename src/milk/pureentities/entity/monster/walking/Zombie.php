@@ -77,7 +77,7 @@ class Zombie extends WalkingMonster implements Ageable{
             $ev = new EntityDamageByEntityEvent($this, $player, EntityDamageEvent::CAUSE_ENTITY_ATTACK, $this->getDamage());
             $player->attack($ev->getFinalDamage(), $ev);
             
-            $fireball = PureEntities::create("FireBall", $pos, $this);
+            $fireball = Entity::createEntity("FireBall", $pos, $this);
             if(!($fireball instanceof FireBall)){
                 return;
             }
