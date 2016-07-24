@@ -18,7 +18,7 @@ class Spider extends WalkingMonster{
     public $height = 1.12;
 
     public function getSpeed() : float{
-        return 21.21;
+        return 9.9;
     }
 
     public function initEntity(){
