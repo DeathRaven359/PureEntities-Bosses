@@ -40,11 +40,13 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
         return "Skeleton";
     }
     //If Making This Fast Will Make The Server Laggy
-/*
+    
+    // Not unless you spawn many, although I do have a pretty good computer.. so I can't really clarify that completely
+
     public function getSpeed() : float{
         return 7.7;
     }
-*/
+
     
     public function initEntity(){
         parent::initEntity();
@@ -112,6 +114,8 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
         }
     }
     //Note:: Using adsStrike Will Make The Server Lagg Too
+    
+    // Yes, this will stay hidden for now
 /*
     public function addStrike(Position $pos){
         $skully = $this->getEntity();
@@ -164,6 +168,7 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
             return [
                 Item::get(Item::DIAMOND, 0, mt_rand(0, 2)),
                 Item::get(Item::DIAMOND_BLOCK, 0, mt_rand(0, 3)),
+                Item::get(Item::GOLDEN_APPLE, 0, mt_rand(0, 2)),
             ];
         }
         return [];
