@@ -196,7 +196,7 @@ class Blaze extends FlyingMonster implements ProjectileSource{
                 $pitch,
                 $this->level
             );
-            $fireball = PureEntities::create("FireBall", $pos, $this);
+            $fireball = Entity::createEntity("FireBall", $pos, $this);
             if(!($fireball instanceof FireBall)){
                 return;
             }
