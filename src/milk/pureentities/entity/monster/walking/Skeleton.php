@@ -3,7 +3,6 @@
 namespace milk\pureentities\entity\monster\walking;
 
 use milk\pureentities\entity\monster\WalkingMonster;
-use milk\pureentities\entity\monster\FlyingMonster;
 use milk\pureentities\entity\projectile\FireBall;
 use pocketmine\entity\Entity;
 use pocketmine\entity\Projectile;
@@ -40,11 +39,13 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
         return "Skeleton";
     }
     //If Making This Fast Will Make The Server Laggy
-/*
+    
+    // Not unless you spawn many, although I do have a pretty good computer.. so I can't really clarify that completely
+
     public function getSpeed() : float{
         return 7.7;
     }
-*/
+
     
     public function initEntity(){
         parent::initEntity();
@@ -77,13 +78,13 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
             ]);
 
             /** @var Projectile $arrow **/
-            $arrow = Entity::createEntity("FireBall", $this->chunk, $nbt, $this);
+            $fireball = Entity::createEntity("FireBall", $this->chunk, $nbt, $this);
 
-            $fireball = Item::get(Item::FIRE_CHARGE, 0, 1);
+            $arrow = Item::get(Item::ARROW, 0, 1);
             $ev = new EntityShootBowEvent($this, $fireball, $arrow, $f);
             $this->server->getPluginManager()->callEvent($ev);
             
-            //$arrow->setExplode(true);
+            $arrow->setExplode(true);
             
             $arrow->setOnFire(true);
             
@@ -112,6 +113,8 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
         }
     }
     //Note:: Using adsStrike Will Make The Server Lagg Too
+    
+    // Yes, this will stay hidden for now
 /*
     public function addStrike(Position $pos){
         $skully = $this->getEntity();
@@ -164,6 +167,7 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
             return [
                 Item::get(Item::DIAMOND, 0, mt_rand(0, 2)),
                 Item::get(Item::DIAMOND_BLOCK, 0, mt_rand(0, 3)),
+                Item::get(Item::GOLDEN_APPLE, 0, mt_rand(0, 2)),
             ];
         }
         return [];

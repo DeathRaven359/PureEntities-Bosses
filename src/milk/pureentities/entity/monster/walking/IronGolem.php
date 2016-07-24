@@ -18,7 +18,7 @@ class IronGolem extends WalkingMonster{
     public $height = 2.1;
 
     public function getSpeed() : float{
-        return 25.25;
+        return 9.9;
     }
 
     public function initEntity(){

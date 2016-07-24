@@ -23,7 +23,9 @@ class Bat extends FlyingAnimal{
     }
 
     public function targetOption(Creature $creature, float $distance) : bool{
-        return false;
+        if($creature instanceof Player){
+            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == Item::AIR && $distance <= 49;
+        }
     }
 
     public function getDrops(){

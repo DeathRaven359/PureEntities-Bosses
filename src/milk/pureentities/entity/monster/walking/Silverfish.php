@@ -14,7 +14,7 @@ class Silverfish extends WalkingMonster{
     public $height = 0.2;
 
     public function getSpeed() : float{
-        return 20.20;
+        return 9.9;
     }
 
     public function initEntity(){

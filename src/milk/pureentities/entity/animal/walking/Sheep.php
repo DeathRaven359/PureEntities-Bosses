@@ -27,7 +27,7 @@ class Sheep extends WalkingAnimal implements Colorable{
 
     public function targetOption(Creature $creature, float $distance) : bool{
         if($creature instanceof Player){
-            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == Item::SEEDS && $distance <= 49;
+            return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == Item::WHEAT && $distance <= 49;
         }
         return false;
     }
