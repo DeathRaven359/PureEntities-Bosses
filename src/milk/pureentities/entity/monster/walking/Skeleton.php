@@ -25,152 +25,33 @@ use pocketmine\Player;
 use pocketmine\math\Vector3;
 use pocketmine\network\protocol\AddEntityPacket;
 
-class Skeleton extends WalkingMonster implements ProjectileSource{
+class Skeleton extends WalkingMonster implements Creature{
+    
     const NETWORK_ID = 34;
 
     public $width = 0.65;
     public $height = 1.8;
-
+    
     public function getName(){
         return "Skeleton";
     }
-    
-    public function setName(){
-        return "Skeleton";
-    }
-    //If Making This Fast Will Make The Server Laggy
-    
-    // Not unless you spawn many, although I do have a pretty good computer.. so I can't really clarify that completely
 
     public function getSpeed() : float{
         return 7.7;
     }
-
-    
     public function initEntity(){
         parent::initEntity();
         $this->setMaxHealth(250);
         $this->setHealth(250);
     }
-//Have You Tried Do Skeleton Like Zombie? Cause Zombie Also Can Attack Using Fireball And Its Perfect.
     public function attackEntity(Entity $player){
         if($this->attackDelay > 30 && mt_rand(1, 32) < 4 && $this->distanceSquared($player) <= 55){
             $this->attackDelay = 0;
-        
-            $f = 1.2;
-            $yaw = $this->yaw + mt_rand(-220, 220) / 10;
-            $pitch = $this->pitch + mt_rand(-120, 120) / 10;
-            $nbt = new CompoundTag("", [
-                "Pos" => new ListTag("Pos", [
-                    new DoubleTag("", $this->x + (-sin($yaw / 180 * M_PI) * cos($pitch / 180 * M_PI) * 0.5)),
-                    new DoubleTag("", $this->y + 1.62),
-                    new DoubleTag("", $this->z +(cos($yaw / 180 * M_PI) * cos($pitch / 180 * M_PI) * 0.5))
-                ]),
-                "Motion" => new ListTag("Motion", [
-                    new DoubleTag("", -sin($yaw / 180 * M_PI) * cos($pitch / 180 * M_PI) * $f),
-                    new DoubleTag("", -sin($pitch / 180 * M_PI) * $f),
-                    new DoubleTag("", cos($yaw / 180 * M_PI) * cos($pitch / 180 * M_PI) * $f)
-                ]),
-                "Rotation" => new ListTag("Rotation", [
-                    new FloatTag("", $yaw),
-                    new FloatTag("", $pitch)
-                ]),
-            ]);
-
-            /** @var Projectile $arrow **/
-            $fireball = Entity::createEntity("FireBall", $this->chunk, $nbt, $this);
-
-            $arrow = Item::get(Item::ARROW, 0, 1);
-            $ev = new EntityShootBowEvent($this, $fireball, $arrow, $f);
-            $this->server->getPluginManager()->callEvent($ev);
-            
-            $fireball->setExplode(true);
-            
-            $arrow->setOnFire(true);
-            
-            //$this->addStrike($arrow);
-
-            $projectile = $ev->getProjectile();
-            if($ev->isCancelled()){
-                $projectile->kill();
-            }elseif($projectile instanceof Projectile){
-                $this->server->getPluginManager()->callEvent($launch = new ProjectileLaunchEvent($projectile));
-                if($launch->isCancelled()){
-                    $projectile->kill();
-                }else{
-                    $projectile->spawnToAll();
-                    
-                    //$this->addStrike($projectile);
-            
-                    $projectile->setOnFire(true);
-            
-                    //$projectile->setExplode(true);
-                    
-                    $this->level->addSound(new DoorCrashSound($this), $this->getViewers());
-   return [];
-                }
-            }
+            $attack = switch(mt_rand(0, 5));
+            case 5:
+            $player->setHealth($player->getHealth() - 1.2);
+            $player->setOnFire(true);
+            $plsyer->sendPopup(TextFormat::RED . "I'll kill you");
         }
     }
-    //Note:: Using adsStrike Will Make The Server Lagg Too
-    
-    // Yes, this will stay hidden for now
-/*
-    public function addStrike(Position $pos){
-        $skully = $this->getEntity();
-        $level = $this->getLevel();
-        $light = new AddEntityPacket();
-        $light->metadata = array();
-        $light->type = 93;
-        $light->eid = Entity::$entityCount++;
-        $light->speedX = 0;
-        $light->speedY = 0;
-        $light->speedZ = 0;
-        $light->x = $skully->x;
-        $light->y = $skully->y;
-        $light->z = $skully->z;
-        Server::broadcastPacket($level->getPlayers(), $light);
-    }
-*/
-
-    public function spawnTo(Player $player){
-        parent::spawnTo($player);
-
-        $pk = new MobEquipmentPacket();
-        $pk->eid = $this->getId();
-        $pk->item = new Bow();
-        $pk->slot = 10;
-        $pk->selectedSlot = 10;
-        $player->dataPacket($pk);
-        //$this->level->addStrike($this->getViewers());
-    }
-
-    public function entityBaseTick($tickDiff = 1){
-        Timings::$timerEntityBaseTick->startTiming();
-
-        $hasUpdate = parent::entityBaseTick($tickDiff);
-
-        $time = $this->getLevel()->getTime() % Level::TIME_FULL;
-        if(
-            !$this->isOnFire(false)
-            && ($time < Level::TIME_NIGHT || $time > Level::TIME_SUNRISE)
-        ){
-            $this->setOnFire(false);
-        }
-
-        Timings::$timerEntityBaseTick->startTiming();
-        return $hasUpdate;
-    }
-
-    public function getDrops(){
-        if($this->lastDamageCause instanceof EntityDamageByEntityEvent){
-            return [
-                Item::get(Item::DIAMOND, 0, mt_rand(0, 2)),
-                Item::get(Item::DIAMOND_BLOCK, 0, mt_rand(0, 3)),
-                Item::get(Item::GOLDEN_APPLE, 0, mt_rand(0, 2)),
-            ];
-        }
-        return [];
-    }
-
 }
